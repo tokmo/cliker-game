@@ -1,6 +1,6 @@
 // État du jeu
 let gameState = {
-    points: 0,
+    points: 50,  // Bonus de départ !
     pointsPerClick: 1,
     pointsPerSecond: 0,
     upgrades: {}
@@ -12,7 +12,7 @@ const upgradeDefinitions = [
         id: 'cursor',
         name: '👆 Curseur',
         description: '+0.1 points/sec',
-        baseCost: 15,
+        baseCost: 10,
         costMultiplier: 1.15,
         effect: { type: 'perSecond', value: 0.1 }
     },
@@ -20,7 +20,7 @@ const upgradeDefinitions = [
         id: 'grandma',
         name: '👵 Grand-mère',
         description: '+1 point/sec',
-        baseCost: 100,
+        baseCost: 50,
         costMultiplier: 1.15,
         effect: { type: 'perSecond', value: 1 }
     },
@@ -28,7 +28,7 @@ const upgradeDefinitions = [
         id: 'farm',
         name: '🌾 Ferme',
         description: '+8 points/sec',
-        baseCost: 1100,
+        baseCost: 500,
         costMultiplier: 1.15,
         effect: { type: 'perSecond', value: 8 }
     },
@@ -36,7 +36,7 @@ const upgradeDefinitions = [
         id: 'mine',
         name: '⛏️ Mine',
         description: '+47 points/sec',
-        baseCost: 12000,
+        baseCost: 3000,
         costMultiplier: 1.15,
         effect: { type: 'perSecond', value: 47 }
     },
@@ -44,7 +44,7 @@ const upgradeDefinitions = [
         id: 'factory',
         name: '🏭 Usine',
         description: '+260 points/sec',
-        baseCost: 130000,
+        baseCost: 10000,
         costMultiplier: 1.15,
         effect: { type: 'perSecond', value: 260 }
     },
@@ -52,7 +52,7 @@ const upgradeDefinitions = [
         id: 'bank',
         name: '🏦 Banque',
         description: '+1400 points/sec',
-        baseCost: 1400000,
+        baseCost: 40000,
         costMultiplier: 1.15,
         effect: { type: 'perSecond', value: 1400 }
     },
@@ -60,7 +60,7 @@ const upgradeDefinitions = [
         id: 'temple',
         name: '⛩️ Temple',
         description: '+7800 points/sec',
-        baseCost: 20000000,
+        baseCost: 200000,
         costMultiplier: 1.15,
         effect: { type: 'perSecond', value: 7800 }
     },
@@ -68,25 +68,41 @@ const upgradeDefinitions = [
         id: 'clickMultiplier1',
         name: '✨ Double clic',
         description: 'x2 points par clic',
-        baseCost: 200,
-        costMultiplier: 10,
+        baseCost: 100,
+        costMultiplier: 5,
         effect: { type: 'perClick', value: 2 }
     },
     {
         id: 'clickMultiplier2',
         name: '💫 Super clic',
         description: 'x5 points par clic',
-        baseCost: 5000,
-        costMultiplier: 10,
+        baseCost: 1000,
+        costMultiplier: 5,
         effect: { type: 'perClick', value: 5 }
     },
     {
         id: 'clickMultiplier3',
         name: '🌟 Mega clic',
         description: 'x10 points par clic',
-        baseCost: 50000,
-        costMultiplier: 10,
+        baseCost: 10000,
+        costMultiplier: 5,
         effect: { type: 'perClick', value: 10 }
+    },
+    {
+        id: 'wizard',
+        name: '🧙 Magicien',
+        description: '+50000 points/sec',
+        baseCost: 1000000,
+        costMultiplier: 1.15,
+        effect: { type: 'perSecond', value: 50000 }
+    },
+    {
+        id: 'portal',
+        name: '🌀 Portail',
+        description: '+500000 points/sec',
+        baseCost: 10000000,
+        costMultiplier: 1.15,
+        effect: { type: 'perSecond', value: 500000 }
     }
 ];
 
@@ -123,7 +139,7 @@ function saveGame() {
 function resetGame() {
     if (confirm('Êtes-vous sûr de vouloir recommencer ? Toute progression sera perdue !')) {
         localStorage.removeItem('clickerGameSave');
-        gameState.points = 0;
+        gameState.points = 50;
         gameState.pointsPerClick = 1;
         gameState.pointsPerSecond = 0;
 
