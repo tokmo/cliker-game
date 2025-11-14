@@ -119,8 +119,18 @@ function loadGame() {
     const savedGame = localStorage.getItem('clickerGameSave');
     if (savedGame) {
         const loaded = JSON.parse(savedGame);
-        gameState.points = loaded.points || 0;
-        gameState.upgrades = loaded.upgrades || gameState.upgrades;
+        gameState.points = loaded.points || 50;
+
+        // Fusionner les upgrades sauvegardés avec les nouveaux (pour compatibilité)
+        if (loaded.upgrades) {
+            upgradeDefinitions.forEach(upgrade => {
+                if (loaded.upgrades[upgrade.id]) {
+                    gameState.upgrades[upgrade.id] = loaded.upgrades[upgrade.id];
+                }
+                // Les nouveaux upgrades gardent leur valeur initiale définie plus haut
+            });
+        }
+
         calculateStats();
         showNotification('Partie chargée !');
     }
@@ -162,6 +172,9 @@ function calculateStats() {
     let perSecond = 0;
 
     upgradeDefinitions.forEach(upgrade => {
+        if (!gameState.upgrades[upgrade.id]) {
+            gameState.upgrades[upgrade.id] = { owned: 0, currentCost: upgrade.baseCost };
+        }
         const owned = gameState.upgrades[upgrade.id].owned;
         if (owned > 0) {
             if (upgrade.effect.type === 'perClick') {
@@ -179,6 +192,9 @@ function calculateStats() {
 // Calculer le coût d'un upgrade
 function getUpgradeCost(upgradeId) {
     const upgrade = upgradeDefinitions.find(u => u.id === upgradeId);
+    if (!gameState.upgrades[upgradeId]) {
+        gameState.upgrades[upgradeId] = { owned: 0, currentCost: upgrade.baseCost };
+    }
     const owned = gameState.upgrades[upgradeId].owned;
     return Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, owned));
 }
@@ -266,6 +282,11 @@ function renderUpgrades() {
     container.innerHTML = '';
 
     upgradeDefinitions.forEach(upgrade => {
+        // S'assurer que l'upgrade existe
+        if (!gameState.upgrades[upgrade.id]) {
+            gameState.upgrades[upgrade.id] = { owned: 0, currentCost: upgrade.baseCost };
+        }
+
         const owned = gameState.upgrades[upgrade.id].owned;
         const cost = getUpgradeCost(upgrade.id);
         const canAfford = gameState.points >= cost;
