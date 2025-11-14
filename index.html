@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game 🎮</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Clicker Game</h1>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Points:</span>
+                    <span class="stat-value" id="points">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Par clic:</span>
+                    <span class="stat-value" id="pointsPerClick">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Par seconde:</span>
+                    <span class="stat-value" id="pointsPerSecond">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="game-section">
+                <div class="clicker-container">
+                    <button id="clickButton" class="click-button">
+                        <span class="button-text">CLIQUER!</span>
+                        <div class="ripple"></div>
+                    </button>
+                    <div id="floatingNumbers"></div>
+                </div>
+            </div>
+
+            <div class="upgrades-section">
+                <h2>🛒 Améliorations</h2>
+                <div class="upgrades-grid" id="upgradesContainer">
+                    <!-- Les améliorations seront générées par JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <button id="resetButton" class="reset-button">🔄 Recommencer</button>
+            <button id="saveButton" class="save-button">💾 Sauvegarder</button>
+        </footer>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
